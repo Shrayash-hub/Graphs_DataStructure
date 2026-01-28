@@ -1,0 +1,42 @@
+class Solution {
+  public:
+    void dfs(vector<vector<char>>& grid,int i,int j,int row,int clm){
+        if(i<0 || j<0 || i>=row || j>=clm){
+            return;
+        }
+        
+        if (grid[i][j] == 'W') {
+            return;
+        }
+
+        // mark visited
+        grid[i][j] = 'W';
+
+        dfs(grid,i+1,j,row,clm);
+        dfs(grid,i-1,j,row,clm);
+        dfs(grid,i,j+1,row,clm);
+        dfs(grid,i,j-1,row,clm);
+        
+        dfs(grid,i+1,j+1,row,clm);
+        dfs(grid,i-1,j-1,row,clm);
+        dfs(grid,i+1,j-1,row,clm);
+        dfs(grid,i-1,j+1,row,clm);
+    }
+  
+    int countIslands(vector<vector<char>>& grid) {
+        // Code here
+        if (grid.empty()) return 0;
+        int count = 0;
+        int row = grid.size();
+        int clm = grid[0].size();
+        for(int i=0;i<grid.size();i++){
+            for(int j=0;j<grid[0].size();j++){
+                if(grid[i][j]=='L'){
+                   count++;
+                   dfs(grid,i,j,row,clm) ;
+                }
+            }
+        }
+        return count;
+    }
+};
