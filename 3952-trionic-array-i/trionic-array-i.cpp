@@ -27,6 +27,7 @@ public:
         while(i<n-1 && nums[i]<nums[i+1]){
             i++;
         }
+        // when array is first increasing then decresing and then increasing
         if(i==n-1) return true;
         return false;
     }
