@@ -1,12 +1,24 @@
 class Solution {
 public:
-    string convertDateToBinary(string date) {
-        auto bin = [](int x) {
-            string s = bitset<16>(x).to_string();
-            return s.substr(s.find('1'));
-        };
-        return bin(stoi(date.substr(0,4))) + "-" +
-               bin(stoi(date.substr(5,2))) + "-" +
-               bin(stoi(date.substr(8,2)));
+    string solve(string s) {
+        string ans = "";
+        int tmp = 0;
+
+        for (int i = 0; i < s.size(); i++) {
+            tmp = tmp * 10 + (s[i] - '0');
+        }
+
+        while (tmp) {
+            ans = ((tmp % 2 == 0) ? "0" : "1") + ans;
+            tmp /= 2;
+        }
+
+        return ans;
+    }
+
+    string convertDateToBinary(string s) {
+
+        return solve(s.substr(0, 4)) + "-" + solve(s.substr(5, 2)) + "-" +
+               solve(s.substr(8, 2));
     }
 };
