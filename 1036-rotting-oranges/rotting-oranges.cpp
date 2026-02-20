@@ -16,6 +16,10 @@ public:
                 }
             }
         }
+        // direction arrays;
+        int dx[4] = {1,-1,0,0};
+        int dy[4] = {0,0,1,-1};
+
         int time = 0;
         // if there are no rotten oranges , then there is no chance of other to be rotten
         while (!q.empty() && fresh > 0) {
@@ -25,27 +29,19 @@ public:
                 pair<int, int> curr = q.front();
                 int i = curr.first;
                 int j = curr.second;
+
                 // checking all the adjacent side of orange
-                if (i + 1 < n && grid[i + 1][j] == 1) {
-                    grid[i + 1][j] = 2;
-                    q.push({i + 1, j});
-                    fresh--;
+                for(int k=0;k<4;k++){
+                    int newi = i + dx[k];
+                    int newj = j + dy[k];
+
+                    if(newi>=0 && newj>=0 && newi<n && newj<m && grid[newi][newj]==1){
+                        grid[newi][newj]=2;
+                        q.push({newi,newj});
+                        fresh--;
+                    }
                 }
-                if (j + 1 < m && grid[i][j + 1] == 1) {
-                    grid[i][j + 1] = 2;
-                    q.push({i, j + 1});
-                    fresh--;
-                }
-                if (i - 1 >= 0 && grid[i - 1][j] == 1) {
-                    grid[i - 1][j] = 2;
-                    q.push({i - 1, j});
-                    fresh--;
-                }
-                if (j - 1 >= 0 && grid[i][j - 1] == 1) {
-                    grid[i][j - 1] = 2;
-                    q.push({i, j - 1});
-                    fresh--;
-                }
+                
                 q.pop();
             }
             // at each iteration time is going to increse by 1 second
