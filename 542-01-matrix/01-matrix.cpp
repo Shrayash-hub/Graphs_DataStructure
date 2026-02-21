@@ -10,12 +10,14 @@ public:
                 if (grid[i][j] == 0) {
                     q.push({i, j});
                 } else {
-                    grid[i][j]=-1;
+                    grid[i][j] = -1;
                     other++;
                 }
             }
         }
         int x = 0;
+        int dx[4] = {1, -1, 0, 0};
+        int dy[4] = {0, 0, 1, -1};
         while (!q.empty() && other > 0) {
             // using bfs
             x++;
@@ -24,26 +26,18 @@ public:
                 pair<int, int> curr = q.front();
                 int i = curr.first;
                 int j = curr.second;
-                // checking all the adjacent side of orange
-                if (i + 1 < n && grid[i + 1][j] == -1) {
-                    grid[i + 1][j] = x;
-                    q.push({i + 1, j});
-                    other--;
-                }
-                if (j + 1 < m && grid[i][j + 1] == -1) {
-                    grid[i][j + 1] = x;
-                    q.push({i, j + 1});
-                    other--;
-                }
-                if (i - 1 >= 0 && grid[i - 1][j] == -1) {
-                    grid[i - 1][j] = x;
-                    q.push({i - 1, j});
-                    other--;
-                }
-                if (j - 1 >= 0 && grid[i][j - 1] == -1) {
-                    grid[i][j - 1] = x;
-                    q.push({i, j - 1});
-                    other--;
+                // checking all the adjacent side of cell
+                for (int k = 0; k < 4; k++) {
+                    int newi = i + dx[k];
+                    int newj = j + dy[k];
+
+                    if (newi >= 0 && newj >= 0 && newi < n && newj < m &&
+                        grid[newi][newj] == -1) {
+
+                        grid[newi][newj] = grid[i][j] + 1;
+                        q.push({newi, newj});
+                        other--;
+                    }
                 }
                 q.pop();
             }
