@@ -15,12 +15,10 @@ public:
                 }
             }
         }
-        int x = 0;
         int dx[4] = {1, -1, 0, 0};
         int dy[4] = {0, 0, 1, -1};
-        while (!q.empty() && other > 0) {
+        while (!q.empty()) {
             // using bfs
-            x++;
             int size = q.size();
             for (int k = 0; k < size; k++) {
                 pair<int, int> curr = q.front();
@@ -36,7 +34,7 @@ public:
 
                         grid[newi][newj] = grid[i][j] + 1;
                         q.push({newi, newj});
-                        other--;
+                        
                     }
                 }
                 q.pop();
