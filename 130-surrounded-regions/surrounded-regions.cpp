@@ -41,17 +41,17 @@ public:
         }
 
         // left and right column
-        i = 0;
-        while (i < m) {
-            for (int j = 0; j < n; j++) {
-                if (board[j][i] == 'O' && !visited[j][i]) {
-                    dfs(board, visited, j, i);
+        int j = 0;
+        while (j < m) {
+            for (int i = 0; i < n; i++) {
+                if (board[i][j] == 'O' && !visited[i][j]) {
+                    dfs(board, visited, i, j);
                 }
             }
 
-            if (i == m - 1)
+            if (j == m - 1)
                 break;
-            i += (m - 1);
+            j += (m - 1);
         }
 
         // convert remaining O to X
