@@ -1,8 +1,6 @@
 class Solution {
 public:
 
-    // These arrays help us move in 4 directions
-    // up, right, down, left
     int dx[4] = {-1, 0, 1, 0};
     int dy[4] = {0, 1, 0, -1};
 
