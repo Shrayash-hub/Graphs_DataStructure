@@ -17,11 +17,11 @@ public:
                 q.push(i);
             }
         }
-        
+        int count = 0;
         vector<int> ans;
         while(!q.empty()){
             int temp = q.front();
-            ans.push_back(temp);
+            count++;
             q.pop();
             for(auto it: adj[temp]){
                 indegree[it]--;
@@ -31,6 +31,7 @@ public:
             }
             
         }
-        return ans.size()== V;
+        // if the size of toposort array is equal to the edge that means its a directed uncyclic graph
+        return count == V;
     }
 };
