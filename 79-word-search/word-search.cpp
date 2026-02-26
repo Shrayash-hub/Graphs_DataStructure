@@ -19,7 +19,7 @@ public:
             if (newi >= 0 && newj >= 0 && newi < board.size() && newj < board[0].size() &&
                 board[newi][newj] != '#') {
                 if (dfs(index + 1, board, word, newi, newj)) {
-                    board[i][j] = curr;
+                    //board[i][j] = curr;
                     return true;
                 }
             }
