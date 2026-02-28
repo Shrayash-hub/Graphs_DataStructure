@@ -1,86 +1,74 @@
 class Solution {
 public:
+
+    // Topological Sort Function 
+    vector<int> topoSort(int k, vector<vector<int>>& adj, vector<int>& indegree) {
+
+        queue<int> q;
+        for(int i = 1; i <= k; i++){
+            if(indegree[i] == 0)
+                q.push(i);
+        }
+
+        vector<int> levelPos(k+1, 0);
+        int level = 0;
+        int count = 0;
+
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+
+            levelPos[node] = level++;
+            count++;
+
+            for(auto it : adj[node]){
+                indegree[it]--;
+                if(indegree[it] == 0)
+                    q.push(it);
+            }
+        }
+
+        // If cycle exists
+        if(count != k) return {};
+
+        return levelPos;
+    }
+
+
     vector<vector<int>> buildMatrix(int k, 
         vector<vector<int>>& rowConditions, 
         vector<vector<int>>& colConditions) {
 
-        // row graph
+        //  Row Graph
         vector<vector<int>> adj1(k+1);
         vector<int> indegreeRow(k+1, 0);
 
-        for(int i = 0; i < rowConditions.size(); i++){
-            int u = rowConditions[i][0];
-            int v = rowConditions[i][1];
+        for(auto &cond : rowConditions){
+            int u = cond[0];
+            int v = cond[1];
             adj1[u].push_back(v);
             indegreeRow[v]++;
         }
 
-        // clm graph
+        // Column Graph 
         vector<vector<int>> adj2(k+1);
         vector<int> indegreeCol(k+1, 0);
 
-        for(int i = 0; i < colConditions.size(); i++){
-            int u = colConditions[i][0];
-            int v = colConditions[i][1];  
+        for(auto &cond : colConditions){
+            int u = cond[0];
+            int v = cond[1];
             adj2[u].push_back(v);
             indegreeCol[v]++;
         }
 
-        // topo for Rows (level store kar letey h)
-        queue<int> q1;
-        for(int i = 1; i <= k; i++){
-            if(indegreeRow[i] == 0)
-                q1.push(i);
-        }
+        // her we will be saving the topological position of every node
+        vector<int> rowLevel = topoSort(k, adj1, indegreeRow);
+        if(rowLevel.empty()) return {};   // cycle in row graph
 
-        vector<int> rowLevel(k+1, 0);
-        int level = 0;
-        int count1 = 0;
+        vector<int> colLevel = topoSort(k, adj2, indegreeCol);
+        if(colLevel.empty()) return {};   // cycle in column graph
 
-        while(!q1.empty()){
-            int node = q1.front();
-            q1.pop();
-
-            rowLevel[node] = level++;   // level save krlo
-            count1++;
-
-            for(auto it : adj1[node]){
-                indegreeRow[it]--;
-                if(indegreeRow[it] == 0)
-                    q1.push(it);
-            }
-        }
-
-        if(count1 != k) return {};   // cycle hue toh
-
-        // topo for Clms
-        queue<int> q2;
-        for(int i = 1; i <= k; i++){
-            if(indegreeCol[i] == 0)
-                q2.push(i);
-        }
-
-        vector<int> colLevel(k+1, 0);
-        level = 0;
-        int count2 = 0;
-
-        while(!q2.empty()){
-            int node = q2.front();
-            q2.pop();
-
-            colLevel[node] = level++;   // level save
-            count2++;
-
-            for(auto it : adj2[node]){
-                indegreeCol[it]--;
-                if(indegreeCol[it] == 0)
-                    q2.push(it);
-            }
-        }
-
-        if(count2 != k) return {};   // cycle hue toh
-
-        
+        // building matrix
         vector<vector<int>> ans(k, vector<int>(k, 0));
 
         for(int i = 1; i <= k; i++){
