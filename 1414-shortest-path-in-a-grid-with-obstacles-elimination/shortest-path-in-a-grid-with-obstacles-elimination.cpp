@@ -4,7 +4,7 @@ public:
 
         int dx[4] = {1,-1,0,0};
         int dy[4] = {0,0,1,-1};
-        queue<pair<pair<int,int>,int>> q;
+        queue<pair<pair<int,int>,int>> q; // {{i,j},Remainig k}
 
         // normal visited array se kam nhi chalega yha
         // kyuki same cell par hm alag alag state m a sakte h
