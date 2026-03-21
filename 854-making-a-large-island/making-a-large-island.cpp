@@ -96,7 +96,7 @@ public:
             }
         }
         
-        // edge case -> when whole cell is filled with 1s , so just find the ultimate parent size of each cell -> answer is largest cell
+        // edge case -> when whole cell is filled with 1s , so just find the ultimate parent size of each cell -> answer is largest components
         for (int cell = 1; cell <= n * n; cell++) {
             maxi = max(maxi, ds.size[ds.findUPar(cell)]);
         }
